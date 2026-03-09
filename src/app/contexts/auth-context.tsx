@@ -1,38 +1,44 @@
-import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
+import { createContext, useContext, useState, ReactNode, useEffect } from 'react'
+import { apiFetch, getAuthToken, setAuthToken } from '../lib/api'
 
-export type UserRole = 'admin' | 'employee';
+export type UserRole = 'admin' | 'employee'
 
 export interface User {
-  username: string;
-  role: UserRole;
-}
-
-export interface Employee {
-  username: string;
-  password: string;
+  id: string
+  email: string
+  username: string
+  role: UserRole
+  name?: string
+  phone?: string
+  address?: string
 }
 
 export interface ActivityLog {
-  id: string;
-  timestamp: Date;
-  user: string;
-  role: UserRole;
-  action: string;
-  machineId?: string;
-  machineName?: string;
-  details: string;
+  id: string
+  timestamp: Date
+  user: string
+  role: UserRole
+  action: string
+  machineId?: string
+  machineName?: string
+  details: string
 }
 
 interface AuthContextType {
-  user: User | null;
-  login: (username: string, password: string, role: UserRole) => boolean;
-  logout: () => void;
-  addLog: (action: string, machineId?: string, machineName?: string, details?: string) => void;
-  logs: ActivityLog[];
-  employees: Employee[];
-  addEmployee: (username: string, password: string) => boolean;
-  removeEmployee: (username: string) => void;
-  changePassword: (oldPassword: string, newPassword: string) => boolean;
+  user: User | null
+  login: (emailOrUsername: string, password: string) => Promise<boolean>
+  logout: () => void
+  refreshUser: () => Promise<void>
+  updateProfile: (profile: {
+    name?: string
+    phone?: string
+    address?: string
+    email?: string
+    username?: string
+  }) => Promise<User>
+  changePassword: (oldPassword: string, newPassword: string) => Promise<void>
+  addLog: (action: string, machineId?: string, machineName?: string, details?: string) => void
+  logs: ActivityLog[]
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);

@@ -1,28 +1,27 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router';
-import { useAuth, UserRole } from '../contexts/auth-context';
-import { Lock, User, Shield } from 'lucide-react';
+import { useState } from 'react'
+import { useNavigate } from 'react-router'
+import { useAuth } from '../contexts/auth-context'
+import { Lock, User, Shield } from 'lucide-react'
 
 export default function Login() {
-  const navigate = useNavigate();
-  const { login } = useAuth();
-  const [role, setRole] = useState<UserRole>('employee');
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const navigate = useNavigate()
+  const { login } = useAuth()
+  const [emailOrUsername, setEmailOrUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setError('');
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setError('')
 
-    const success = login(username, password, role);
-    
+    const success = await login(emailOrUsername, password)
+
     if (success) {
-      navigate('/home');
+      navigate('/home')
     } else {
-      setError('Tên đăng nhập hoặc mật khẩu không đúng!');
+      setError('Tên đăng nhập hoặc mật khẩu không đúng!')
     }
-  };
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-green-50 to-yellow-50 flex items-center justify-center p-6">
@@ -43,60 +42,22 @@ export default function Login() {
         {/* Login Form */}
         <div className="bg-white rounded-2xl shadow-xl p-8">
           <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Role Selection */}
+            {/* Email / Username */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-3">
-                Vai trò
-              </label>
-              <div className="grid grid-cols-2 gap-3">
-                <button
-                  type="button"
-                  onClick={() => setRole('employee')}
-                  className={`flex flex-col items-center gap-2 p-4 rounded-lg border-2 transition-all ${
-                    role === 'employee'
-                      ? 'border-blue-500 bg-blue-50'
-                      : 'border-gray-200 hover:border-gray-300'
-                  }`}
-                >
-                  <User className={`size-8 ${role === 'employee' ? 'text-blue-500' : 'text-gray-400'}`} />
-                  <span className={`font-medium ${role === 'employee' ? 'text-blue-700' : 'text-gray-600'}`}>
-                    Nhân viên
-                  </span>
-                </button>
-                
-                <button
-                  type="button"
-                  onClick={() => setRole('admin')}
-                  className={`flex flex-col items-center gap-2 p-4 rounded-lg border-2 transition-all ${
-                    role === 'admin'
-                      ? 'border-purple-500 bg-purple-50'
-                      : 'border-gray-200 hover:border-gray-300'
-                  }`}
-                >
-                  <Shield className={`size-8 ${role === 'admin' ? 'text-purple-500' : 'text-gray-400'}`} />
-                  <span className={`font-medium ${role === 'admin' ? 'text-purple-700' : 'text-gray-600'}`}>
-                    Quản trị viên
-                  </span>
-                </button>
-              </div>
-            </div>
-
-            {/* Username */}
-            <div>
-              <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-2">
-                Tên đăng nhập
+              <label htmlFor="emailOrUsername" className="block text-sm font-medium text-gray-700 mb-2">
+                Email hoặc tên đăng nhập
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <User className="size-5 text-gray-400" />
                 </div>
                 <input
-                  id="username"
+                  id="emailOrUsername"
                   type="text"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
+                  value={emailOrUsername}
+                  onChange={(e) => setEmailOrUsername(e.target.value)}
                   className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none"
-                  placeholder={role === 'admin' ? 'admin' : 'employee'}
+                  placeholder="Email hoặc tên đăng nhập"
                   required
                 />
               </div>
@@ -152,6 +113,14 @@ export default function Login() {
               <div className="flex justify-between">
                 <span>Nhân viên:</span>
                 <span className="font-mono">employee / em1</span>
+              </div>
+              <div className="flex justify-between">
+                <span>Hoặc email (admin):</span>
+                <span className="font-mono">admin@example.com</span>
+              </div>
+              <div className="flex justify-between">
+                <span>Hoặc email (employee):</span>
+                <span className="font-mono">employee@example.com</span>
               </div>
             </div>
           </div>

@@ -39,12 +39,17 @@
     "@radix-ui/react-toggle": "1.1.2",
     "@radix-ui/react-toggle-group": "1.1.2",
     "@radix-ui/react-tooltip": "1.1.8",
+    "bcryptjs": "^3.0.3",
     "class-variance-authority": "0.7.1",
     "clsx": "2.1.1",
     "cmdk": "1.1.1",
+    "cors": "^2.8.6",
     "date-fns": "3.6.0",
+    "dotenv": "^17.3.1",
     "embla-carousel-react": "8.6.0",
+    "express": "^5.2.1",
     "input-otp": "1.4.2",
+    "jsonwebtoken": "^9.0.3",
     "lucide-react": "0.487.0",
     "motion": "12.23.24",
     "next-themes": "0.4.6",
@@ -65,6 +70,8 @@
   },
   "devDependencies": {
     "@tailwindcss/vite": "4.1.12",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "4.7.0",
     "tailwindcss": "4.1.12",
     "vite": "^6.4.1"
@@ -85,5 +92,18 @@
     "overrides": {
       "vite": "6.3.5"
     }
-  }
+  },
+  "description": "This is a code bundle for Web interface for control panel. The original project is available at https://www.figma.com/design/q0kxHCqdIGVGiFOt3GNVD9/Web-interface-for-control-panel.",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Hasakiiiiiiii/DADN-N10.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Hasakiiiiiiii/DADN-N10/issues"
+  },
+  "homepage": "https://github.com/Hasakiiiiiiii/DADN-N10#readme"
 }

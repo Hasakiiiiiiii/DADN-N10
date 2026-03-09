@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  mosquitto:
+    image: eclipse-mosquitto:2.0
+    ports:
+      - '1883:1883'
+      - '9001:9001'
+    volumes:
+      - ./mosquitto/config:/mosquitto/config
+      - ./mosquitto/data:/mosquitto/data
+      - ./mosquitto/log:/mosquitto/log
+
+  mongo:
+    image: mongo:7.0
+    ports:
+      - '27017:27017'
+    volumes:
+      - ./mongo/data:/data/db
+
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - '4000:4000'
+    environment:
+      - PORT=4000
+      - JWT_SECRET=replace-me-with-a-secret
+      - MONGO_URL=mongodb://mongo:27017/control-panel
+      - MQTT_URL=mqtt://mosquitto:1883
+      - MQTT_BASE_TOPIC=devices
+    depends_on:
+      - mosquitto
+      - mongo
+    restart: unless-stopped
